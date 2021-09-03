@@ -47,7 +47,7 @@ export default {
     },
     computed: {
         messages () {
-            return this.$store.getters.getMessage
+            return this.$store.getters.getMessageMain
         }
     },
     methods: {
@@ -64,9 +64,18 @@ export default {
             axios
             .get('https://tocode.ru/static/_secret/courses/1/notifyApi.php')
                 .then(response => {
-                    let res = response.data.notify
-                    this.$store.dispatch('setMessage', res)
-                    // this.messages = res
+                    let res = response.data.notify,
+                        messages = [],
+                        messagesMain = [];
+
+                    //filter
+                    for (let i = 0; i < res.length; i++) {
+                        if (res[i].main) messagesMain.push(res[i])
+                        else messages.push(res[i])
+                    }
+
+                    this.$store.dispatch('setMessage', messages)
+                    this.$store.dispatch('setMessageMain', messagesMain)
                 })
                 .catch(error => {
                     console.log(error)
