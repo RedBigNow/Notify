@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import notify from '@/components/Notify.vue'
 
 // UI
@@ -38,14 +39,33 @@ export default {
     data () {
         return {
             loading: false,
-            messages: [
-                { title: 'message 1' },
-                { title: 'message 2' },
-                { title: 'message 3' },
-                { title: 'message 4' },
-                { title: 'message 5' },
-                { title: 'message 6' }
-            ]
+            messages: []
+        }
+    },
+    mounted () {
+        this.getNotify()
+    },
+    methods: {
+        getNotifyLazy () {
+            this.loading = true
+
+            setTimeout (() => {
+                this.getNotify()
+            }, 1800)
+        },
+
+        getNotify () {
+            this.loading = true
+            axios
+            .get('https://tocode.ru/static/_secret/courses/1/notifyApi.php')
+                .then(response => {
+                    let res = response.data.notify
+                    this.messages = res
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally( () => (this.loading = false) )
         }
     }
 }
