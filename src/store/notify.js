@@ -1,3 +1,5 @@
+import loadMore from '../assets/js/loadMore.js'
+
 export default {
     state: {
         messages: [],
@@ -9,6 +11,9 @@ export default {
         },
         setMessageMain (state, payload) {
             state.messagesMain = payload
+        },
+        loadMessages (state, payload) {
+            state.messagesMain = [...state.messagesMain, ...payload]
         }
         
     },
@@ -18,6 +23,10 @@ export default {
         },
         setMessageMain ({commit}, payload) {
             commit('setMessageMain', payload)
+        },
+        loadMessages ({commit, getters}) {
+            let res = getters.getMessageFilter
+            commit('loadMessages', loadMore(res))
         }
     },
     getters: {
@@ -26,6 +35,11 @@ export default {
         },
         getMessageMain (state) {
             return state.messagesMain
-        }
+        },
+        getMessageFilter (state) {
+            return state.messages.filter(mes => {
+                return mes.main === false
+            })
+        },
     }
 }
