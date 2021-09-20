@@ -113,6 +113,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 20px;
 
     p {
         font-size: 24px;

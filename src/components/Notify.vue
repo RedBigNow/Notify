@@ -62,7 +62,7 @@ td {
 }
 
 button {
-    margin-top: 20px;
+    margin-top: 40px;
     
     &.btnDisabled {
         cursor: default;
